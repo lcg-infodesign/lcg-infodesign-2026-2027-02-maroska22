@@ -9,6 +9,7 @@ function setup() {
 
   background('black');
 
+  //parola al centro
   fill('white');
   textAlign(CENTER, CENTER);
   textSize(18);
@@ -16,20 +17,34 @@ function setup() {
   const message = "Flowers";
   text(message, width / 2, height / 2);
 
-  drawFlower();
+  //disposizione circolare 
+  let xCorrent = width/2;
+  let yCorrent = height/2; 
+
+  let numRings = 3;
+  let distRings = 150; 
+
+  for (let ring = 1; ring <= numRings; ring++){
+    let r = ring*distRings; //raggio per ogni anello
+    let numFlowers = ring*10; //numero di fiori per ogni anello
+    for (let i=0; i<numFlowers; i++){
+      let angleF = (TWO_PI / numFlowers)*i; //fiori equidistanziati
+      drawFlower(xCorrent + cos(angleF)*r, yCorrent + sin(angleF)*r);
+    }
+  }
 }
 
 function draw() {
   // put drawing code here
 }
 
-function drawFlower () {
+function drawFlower (x, y) {
 push();
 
-translate(random(windowWidth), random(windowHeight));
+translate(x, y);
 
 //disco esterno
-let numPetals = random(4, 16);
+let numPetals = floor(random(4, 16)); //arrotonda per difetto
 
 colorMode(HSB, 360, 100, 100); //sistema per i colori
 let colPetals = random(0, 360);
@@ -43,8 +58,8 @@ let heightPetals = random(5, 60);
   for(let i = 0; i<numPetals; i++) { 
     push();
 
-    let angle = (TWO_PI / numPetals)*i;
-    rotate(angle);
+    let angleP = (TWO_PI / numPetals)*i; //petali equidistanziati
+    rotate(angleP);
     ellipse(40, 0, widthPetals, heightPetals);
     
     pop(); 
